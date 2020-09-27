@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const devKey = require('../config');
+const { devKey } = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 

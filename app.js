@@ -7,7 +7,7 @@ const helmet = require('helmet');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorsHandler = require('./middlewares/errorsHandler');
-const pathToBD = require('./config');
+const { pathToBD } = require('./config');
 const limiter = require('./rateLimiter/rateLimiter');
 const allRouters = require('./routes/index');
 

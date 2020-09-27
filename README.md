@@ -19,7 +19,7 @@
 - POST /signin возвращает JWT, если в теле запроса переданы правильные почта и пароль.
 
 ## Доменное имя:
-api.newsforyouproject.ru (api.newsforyouproject.ru)
+api.newsforyouproject.ru (wwww.api.newsforyouproject.ru)
 
 ## Публичный IP-адрес:
 130.193.58.182

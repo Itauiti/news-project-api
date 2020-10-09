@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+Joi.objectId = require('joi-objectid')(Joi);
+const { celebrateParamsError, celebrateBodyError } = require('../middlewares/celebrateErrorsHandler');
 
 const validationUrl = require('../validation/validationUrl');
 
@@ -18,8 +20,12 @@ router.post('/', celebrate({
     link: Joi.string().required().custom(validationUrl),
     image: Joi.string().required().custom(validationUrl),
   }),
-}), createArticle);
+}), celebrateBodyError, createArticle);
 
-router.delete('/:articleId', deleteArticle);
+router.delete('/:articleId', celebrate({
+  params: Joi.object().keys({
+    articleId: Joi.objectId(),
+  }),
+}), celebrateParamsError, deleteArticle);
 
 module.exports = router;

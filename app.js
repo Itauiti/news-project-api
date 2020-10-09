@@ -31,5 +31,5 @@ app.use(errorLogger);
 app.use(errorsHandler);
 
 app.listen(PORT, () => {
-  console.log('работает');
+  console.log('He is alive');
 });

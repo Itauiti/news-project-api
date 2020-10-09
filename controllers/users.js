@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
 const AuthError = require('../errors/auth-error');
+const ValidationError = require('../errors/validation-error');
+const AlreadyExistsError = require('../errors/already-exists-error');
+const { alreadyExistsErrorMessege, loginErrorMessege, notFoundUserErrorMessege } = require('../errors/errors-messeges-rus');
 const { devKey } = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -21,6 +24,12 @@ async function createUser(req, res, next) {
       email: user.email,
     });
   } catch (err) {
+    if (err.name === 'ValidationError') {
+      next(new ValidationError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
+    }
+    if (err.code === 11000 && err.name === 'MongoError') {
+      next(new AlreadyExistsError(alreadyExistsErrorMessege));
+    }
     return next(err);
   }
 }
@@ -38,7 +47,7 @@ async function login(req, res, next) {
       });
     return res.send({ token });
   } catch (err) {
-    return next(new AuthError('Неверный логин или пароль'));
+    return next(new AuthError(loginErrorMessege));
   }
 }
 
@@ -47,7 +56,7 @@ async function getUser(req, res, next) {
   try {
     const user = await User.find({ _id: userId });
     if (user === null) {
-      throw new NotFoundError('Нет пользователя с таким id');
+      throw new NotFoundError(notFoundUserErrorMessege);
     } else {
       return res.send(user);
     }

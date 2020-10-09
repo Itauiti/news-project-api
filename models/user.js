@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const AuthError = require('../errors/auth-error');
+const { loginErrorMessege } = require('../errors/errors-messeges-rus');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Поле "name" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "name" - 2'],
-    maxlength: [30, 'Макимальная длина поля "name" - 30'],
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   email: {
     type: String,
-    required: [true, 'Поле "email" должно быть заполнено'],
-    unique: [true, 'Пользователь с таким "email" уже существует'],
+    required: true,
+    unique: true,
     validate: {
       validator(email) {
         return validator.isEmail(email);
@@ -21,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Поле "password" должно быть заполнено'],
+    required: true,
     select: false,
   },
 });
@@ -30,13 +32,13 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+        return Promise.reject(new AuthError(loginErrorMessege));
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль'));
+            return Promise.reject(new AuthError(loginErrorMessege));
           }
 
           return user;

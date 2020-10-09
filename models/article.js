@@ -4,31 +4,31 @@ const validator = require('validator');
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
-    required: [true, 'Поле "keyword" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "keyword" - 2'],
-    maxlength: [30, 'Макимальная длина поля "keyword" - 30'],
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   title: {
     type: String,
-    required: [true, 'Поле "title" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "title" - 2'],
-    maxlength: [30, 'Макимальная длина поля "title" - 30'],
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   text: {
     type: String,
-    required: [true, 'Поле "text" должно быть заполнено'],
+    required: true,
   },
   date: {
     type: String,
-    required: [true, 'Поле "date" должно быть заполнено'],
+    required: true,
   },
   source: {
     type: String,
-    required: [true, 'Поле "source" должно быть заполнено'],
+    required: true,
   },
   link: {
     type: String,
-    required: [true, 'Поле "link" должно быть заполнено'],
+    required: true,
     validate: {
       validator(link) {
         return validator.isURL(link);
@@ -37,7 +37,7 @@ const articleSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: [true, 'Поле "image" должно быть заполнено'],
+    required: true,
     validate: {
       validator(link) {
         return validator.isURL(link);

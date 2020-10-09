@@ -2,17 +2,17 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-error');
 const AccessError = require('../errors/access-error');
 
-module.exports.getAllArticles = async (req, res, next) => {
+async function getAllArticles(req, res, next) {
   const userId = req.user._id;
   try {
     const articles = await Article.find({ owner: userId });
     return res.send(articles);
   } catch (err) {
-    next(err);
+    return next(err);
   }
-};
+}
 
-module.exports.createArticle = async (req, res, next) => {
+async function createArticle(req, res, next) {
   const {
     keyword, title, text, date, source, link, image,
   } = req.body;
@@ -24,11 +24,11 @@ module.exports.createArticle = async (req, res, next) => {
     });
     return res.send(article);
   } catch (err) {
-    next(err);
+    return next(err);
   }
-};
+}
 
-module.exports.deleteArticle = async (req, res, next) => {
+async function deleteArticle(req, res, next) {
   const { articleId } = req.params;
   const userId = req.user._id;
 
@@ -43,6 +43,12 @@ module.exports.deleteArticle = async (req, res, next) => {
       return res.send(article);
     }
   } catch (err) {
-    next(err);
+    return next(err);
   }
+}
+
+module.exports = {
+  getAllArticles,
+  createArticle,
+  deleteArticle,
 };

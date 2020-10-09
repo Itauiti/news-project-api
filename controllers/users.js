@@ -7,7 +7,7 @@ const { devKey } = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.createUser = async (req, res, next) => {
+async function createUser(req, res, next) {
   const {
     name, email, password,
   } = req.body;
@@ -16,16 +16,16 @@ module.exports.createUser = async (req, res, next) => {
     const user = await User.create({
       name, email, password: hash,
     });
-    res.send({
+    return res.send({
       name: user.name,
       email: user.email,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
-};
+}
 
-module.exports.login = async (req, res, next) => {
+async function login(req, res, next) {
   const { email, password } = req.body;
   try {
     const user = await User.findUserByCredentials(email, password);
@@ -38,11 +38,11 @@ module.exports.login = async (req, res, next) => {
       });
     return res.send({ token });
   } catch (err) {
-    next(new AuthError('Неверный логин или пароль'));
+    return next(new AuthError('Неверный логин или пароль'));
   }
-};
+}
 
-module.exports.getUser = async (req, res, next) => {
+async function getUser(req, res, next) {
   const userId = req.user._id;
   try {
     const user = await User.find({ _id: userId });
@@ -52,6 +52,12 @@ module.exports.getUser = async (req, res, next) => {
       return res.send(user);
     }
   } catch (err) {
-    next(err);
+    return next(err);
   }
+}
+
+module.exports = {
+  createUser,
+  login,
+  getUser,
 };

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -19,6 +20,23 @@ mongoose.connect(`${NODE_ENV === 'production' ? MONGOOSE_SECRET : pathToBD}`, {
   useFindAndModify: false,
 });
 
+const corsOptions = {
+  origin: [
+    'https://api.newsforyouproject.ru',
+    'http://localhost:8080',
+    'https://itauiti.github.io',
+  ],
+  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: [
+    'Content-Type',
+    'origin',
+    'x-access-token',
+  ],
+  credentials: true,
+};
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,6 +44,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(limiter);
 app.use(requestLogger);
+app.use('*', cors(corsOptions));
 app.use('/', allRouters);
 app.use(errorLogger);
 app.use(errorsHandler);

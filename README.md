@@ -22,7 +22,7 @@
 api.newsforyouproject.ru (wwww.api.newsforyouproject.ru)
 
 ## Публичный IP-адрес:
-130.193.58.182
+84.201.170.103
 
 ## Стэк технологий:
 Node.js, express.js, MongoDBб

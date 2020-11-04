@@ -45,7 +45,8 @@ async function login(req, res, next) {
         httpOnly: true,
         sameSite: 'strict',
       });
-    return res.send({ token });
+
+    return res.send({ token, name: user.name });
   } catch (err) {
     return next(new AuthError(loginErrorMessege));
   }
@@ -65,8 +66,27 @@ async function getUser(req, res, next) {
   }
 }
 
+async function logoutUser(req, res, next) {
+  const userId = req.user._id;
+  try {
+    const user = await User.find({ _id: userId });
+    if (user === null) {
+      throw new NotFoundError(notFoundUserErrorMessege);
+    } else {
+      res.cookie('jwt', '', {
+        httpOnly: true,
+        expires: new Date(0),
+      });
+      return res.send(user);
+    }
+  } catch (err) {
+    return next(err);
+  }
+}
+
 module.exports = {
   createUser,
   login,
   getUser,
+  logoutUser,
 };

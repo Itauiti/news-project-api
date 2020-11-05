@@ -9,7 +9,7 @@ const helmet = require('helmet');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorsHandler = require('./middlewares/errorsHandler');
 const { pathToBD } = require('./config');
-const limiter = require('./rateLimiter/rateLimiter');
+// const limiter = require('./rateLimiter/rateLimiter');
 const allRouters = require('./routes/index');
 
 const { PORT = 3000, NODE_ENV, MONGOOSE_SECRET } = process.env;
@@ -24,11 +24,9 @@ const corsOptions = {
   origin: [
     'http://localhost:8080',
     'https://api.newsforyouproject.ru',
-    'http://api.newsforyouproject.ru',
     'https://itauiti.github.io',
-    'http://itauiti.github.io',
   ],
-  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'HEAD'],
   preflightContinue: false,
   optionsSuccessStatus: 204,
   allowedHeaders: [
@@ -44,7 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
-app.use(limiter);
+// app.use(limiter);
 app.use(requestLogger);
 app.use('*', cors(corsOptions));
 app.use('/', allRouters);

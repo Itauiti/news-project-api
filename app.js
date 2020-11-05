@@ -22,8 +22,8 @@ mongoose.connect(`${NODE_ENV === 'production' ? MONGOOSE_SECRET : pathToBD}`, {
 
 const corsOptions = {
   origin: [
-    'https://api.newsforyouproject.ru',
     'http://localhost:8080',
+    'https://api.newsforyouproject.ru',
     'https://itauiti.github.io',
   ],
   methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],

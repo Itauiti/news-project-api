@@ -24,7 +24,9 @@ const corsOptions = {
   origin: [
     'http://localhost:8080',
     'https://newsforyouproject.ru',
+    'http://newsforyouproject.ru',
     'https://itauiti.github.io',
+    'http://itauiti.github.io',
   ],
   methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE', 'HEAD'],
   preflightContinue: false,

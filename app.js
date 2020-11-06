@@ -25,6 +25,8 @@ const corsOptions = {
     'http://localhost:8080',
     'https://newsforyouproject.ru',
     'http://newsforyouproject.ru',
+    'https://www.newsforyouproject.ru',
+    'http://www.newsforyouproject.ru',
     'https://itauiti.github.io',
     'http://itauiti.github.io',
   ],

@@ -20,9 +20,11 @@
 
 ## Доменное имя:
 api.newsforyouproject.ru (wwww.api.newsforyouproject.ru)
+СЕРВЕР ОСТАНОВЛЕН
 
 ## Публичный IP-адрес:
 130.193.56.169
+СЕРВЕР ОСТАНОВЛЕН
 
 ## Стэк технологий:
 Node.js, express.js, MongoDBб
